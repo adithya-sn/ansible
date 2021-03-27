@@ -1,0 +1,3 @@
+---
+dns_primary: "1.1.1.1"
+dns_secondary: "8.8.8.8"
