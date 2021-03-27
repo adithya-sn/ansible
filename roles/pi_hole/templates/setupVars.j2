@@ -1,5 +1,6 @@
 ## Pi-hole config
 IPV4_ADDRESS=0.0.0.0
+PIHOLE_INTERFACE={{ ansible_default_ipv4['interface'] }}
 PIHOLE_DNS_1={{ dns_primary }}
 PIHOLE_DNS_2={{ dns_secondary }}
 QUERY_LOGGING=false
