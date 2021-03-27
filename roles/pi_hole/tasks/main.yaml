@@ -1,0 +1,21 @@
+---
+- name: Download the Pi-hole install script
+  get_url:
+    url: https://install.pi-hole.net
+    dest: /tmp/pihole-install.sh
+  delegate_to: localhost
+
+- name: Create directory for Pi-hole config
+  file:
+    path: /etc/pihole
+    state: directory
+    mode: 0755
+
+- name: Copy Pi-hole config
+  template:
+    src: setupVars.j2
+    dest: /etc/pihole/setupVars.conf
+
+- name: Install Pi-hole
+  script: "/tmp/pihole-install.sh --unattended"
+
