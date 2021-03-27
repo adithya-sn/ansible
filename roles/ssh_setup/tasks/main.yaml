@@ -1,0 +1,37 @@
+---
+- name: Print out OS distribution
+  debug:
+    var: ansible_distribution
+
+- name: Check supported OS
+  fail:
+    msg: "Unsupported OS"
+  when: ansible_distribution != "Debian"
+
+- name: Add the new user
+  user:
+    name: "{{ new_user }}"
+    groups: sudo,adm,dialout,audio,video,plugdev,games,users,input,netdev,i2c,spi
+    password: "{{ new_user_pass | password_hash('sha512') }}"
+    shell: /bin/bash
+
+- name: Passwordless sudo for the new user
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: "{{ new_user }} ALL=(ALL) NOPASSWD:ALL"
+    validate: '/usr/sbin/visudo -cf %s'
+
+- name: Lock default raspberry user
+  shell: "passwd -l pi"
+
+- name: Modify SSH to use non-default port
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^(#)?Port"
+    line: "Port {{ ssh_port }}"
+
+- name: Restart SSHD
+  service:
+    name: sshd
+    state: restarted

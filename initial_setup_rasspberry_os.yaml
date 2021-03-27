@@ -1,0 +1,17 @@
+## Playbook takes username and password and runs the ssh role
+---
+- hosts: all
+  gather_facts: true
+  become: true
+
+  vars_prompt:
+    - name: new_user
+      prompt: Enter new username
+      private: false
+
+    - name: new_user_pass
+      prompt: Enter password
+      private: true
+
+  roles:
+    - { role: ssh_setup }
