@@ -24,6 +24,7 @@
 
 - name: Lock default raspberry user
   shell: "passwd -l pi"
+  ignore_errors: true
 
 - name: Modify SSH to use non-default port
   lineinfile:
