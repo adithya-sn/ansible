@@ -56,6 +56,7 @@
 - name: Modify vimrc
   blockinfile:
     dest: /etc/vim/vimrc
+    marker: "\""
     block: |
       syntax on
       filetype plugin indent on
